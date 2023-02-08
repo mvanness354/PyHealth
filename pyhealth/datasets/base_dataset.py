@@ -357,6 +357,7 @@ class BaseDataset(ABC):
                 self.patients.items(), desc=f"Generating samples for {task_name}"
         ):
             samples.extend(task_fn(patient))
+            
         sample_dataset = SampleDataset(samples,
                                        dataset_name=self.dataset_name,
                                        task_name=task_name, )

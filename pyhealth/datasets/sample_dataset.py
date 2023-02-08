@@ -171,6 +171,7 @@ class SampleDataset(Dataset):
             4.2. Check type: the basic type of each element should be float, 
             int, or str.
             """
+            print("Length of flattened values", len(flattened_values))
             types = set([type(v) for v in flattened_values])
             assert types == set([str]) or len(types.difference(set([int, float]))) == 0, \
                 f"Key {key} has mixed or unsupported types ({types}) across samples"

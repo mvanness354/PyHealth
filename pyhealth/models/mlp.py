@@ -63,7 +63,7 @@ class MLP(BaseModel):
         activation: str = "relu",
         **kwargs,
     ):
-        super(MLP, self).__init__(
+        super().__init__(
             dataset=dataset,
             feature_keys=feature_keys,
             label_key=label_key,
@@ -91,23 +91,23 @@ class MLP(BaseModel):
         for feature_key in self.feature_keys:
             input_info = self.dataset.input_info[feature_key]
             # sanity check
-            if input_info["Type"] not in [str, float, int]:
+            if input_info["type"] not in [str, float, int]:
                 raise ValueError(
                     "MLP only supports str code, float and int as input types"
                 )
-            elif (input_info["Type"] == str) and (input_info["level"] not in [1, 2]):
+            elif (input_info["type"] == str) and (input_info["dim"] not in [1, 2]):
                 raise ValueError(
                     "MLP only supports 1-level or 2-level str code as input types"
                 )
-            elif (input_info["Type"] in [float, int]) and (
-                input_info["level"] not in [1, 2, 3]
+            elif (input_info["type"] in [float, int]) and (
+                input_info["dim"] not in [1, 2, 3]
             ):
                 raise ValueError(
                     "MLP only supports 1-level, 2-level or 3-level float and int as input types"
                 )
             # for code based input, we need Type
             # for float/int based input, we need Type, input_dim
-            self.add_feature_transform_layer(feature_key=feature_key, **input_info)
+            self.add_feature_transform_layer(feature_key, input_info)
 
         if activation == "relu":
             self.activation = nn.ReLU()
@@ -184,7 +184,7 @@ class MLP(BaseModel):
         patient_emb = []
         for feature_key in self.feature_keys:
             input_info = self.dataset.input_info[feature_key]
-            level, Type = input_info["level"], input_info["Type"]
+            level, Type = input_info["dim"], input_info["type"]
 
             # for case 1: [code1, code2, code3, ...]
             if (level == 1) and (Type == str):

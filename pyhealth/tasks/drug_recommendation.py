@@ -238,7 +238,7 @@ def drug_recommendation_omop_fn(patient: Patient):
         procedures = visit.get_code_list(table="procedure_occurrence")
         drugs = visit.get_code_list(table="drug_exposure")
         # exclude: visits without condition, procedure, or drug code
-        if len(conditions) * len(procedures) * len(drugs) == 0:
+        if len(conditions) + len(procedures) + len(drugs) == 0:
             continue
         # TODO: should also exclude visit with age < 18
         samples.append(
