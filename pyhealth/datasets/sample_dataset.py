@@ -173,8 +173,9 @@ class SampleDataset(Dataset):
             """
             print("Length of flattened values", len(flattened_values))
             types = set([type(v) for v in flattened_values])
-            assert types == set([str]) or len(types.difference(set([int, float]))) == 0, \
-                f"Key {key} has mixed or unsupported types ({types}) across samples"
+            assert (
+                types == set([str]) or len(types.difference(set([int, float]))) == 0
+            ), f"Key {key} has mixed or unsupported types ({types}) across samples"
             type_ = types.pop()
             """
             4.3. Combined level and type check.
